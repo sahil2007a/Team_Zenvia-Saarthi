@@ -1,0 +1,63 @@
+# Dependencies
+node_modules/
+*/node_modules/
+**/node_modules/
+package-lock.json.bak
+
+# Expo & React Native
+.expo/
+*/.expo/
+**/.expo/
+dist/
+web-build/
+expo-env.d.ts
+
+# Native Builds
+.kotlin/
+*.orig.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+/ios
+/android
+APP SOURCE CODE/ios
+APP SOURCE CODE/android
+
+# Metro & Bundlers
+.metro-health-check*
+
+# Environment Variables & Secrets
+.env
+.env.local
+.env.*.local
+*.env
+**/.env
+**/.env.*
+env.local
+
+# Logs
+logs/
+*.log
+**/*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS & Temp Files
+.DS_Store
+Thumbs.db
+*.pem
+scratch/
+**/.system_generated/
+
+# Editor Directories
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+.idea/
+
+# TypeScript
+*.tsbuildinfo

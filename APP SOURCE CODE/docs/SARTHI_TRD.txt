@@ -1,0 +1,568 @@
+SARTHI
+AI-Powered Heritage Companion
+Technical Requirements Document (TRD)
+Implementation contract for the production-quality mobile prototype
+
+1. Document Purpose
+This TRD converts the supplied SARTHI product specification and the companion PRD into implementation-level requirements. It defines the technical architecture, module boundaries, state/data contracts, persistence, service abstractions, offline behavior, validation, testing expectations, and build constraints.
+The TRD does not introduce product features that were not supported by the source specification. Where the source leaves a low-level implementation choice open, this document selects a concrete default only where required to make implementation deterministic, and marks externally dependent behavior as mock/API-ready.
+2. Source & Scope Integrity
+Primary product source: user-provided SARTHI specification.
+PRD is the product-level organization of that source.
+This TRD is implementation guidance derived from those requirements.
+No AR functionality is implemented in this release.
+AR readiness means service/data boundaries must not prevent a future AR module; no AR UI, camera overlay, tracking, or AR permission flow is part of this build.
+No real payment flow.
+No full admin application.
+No API secrets in the mobile application.
+3. Technology Baseline
+Exact package versions should be pinned by the implementation environment and validated for Expo compatibility rather than invented as a product requirement.
+4. Architectural Principles
+Presentation components must not own domain/business logic.
+External integrations must be accessed through service interfaces.
+Mock/local implementations must satisfy the same contracts intended for future real integrations.
+Domain types are shared through the types layer.
+Server state belongs in TanStack Query; cross-screen client preferences/UI state belongs in Zustand; durable offline content belongs in persistent storage.
+Feature modules own feature-specific UI and hooks while reusable primitives live in components/.
+All important asynchronous operations expose loading, success, empty, error, and offline-aware states where applicable.
+All user-facing strings come from i18n.
+Navigation is declarative through Expo Router.
+Long lists use FlatList/virtualized rendering.
+API secrets never ship in the client.
+5. Recommended Project Structure
+app/
+  (onboarding)/
+  (tabs)/
+    home/
+    explore/
+    plan/
+    guide/
+    profile/
+  explore/[siteId].tsx
+  site/[siteId]/
+    index.tsx
+    overview.tsx
+    stories.tsx
+    map.tsx
+    facilities.tsx
+    accessibility.tsx
+    audio.tsx
+  plan/create.tsx
+  plan/result.tsx
+  guide/chat.tsx
+  profile/language.tsx
+  profile/accessibility.tsx
+  profile/downloads.tsx
+  profile/settings.tsx
+
+components/
+  ui/
+  navigation/
+  heritage/
+  audio/
+  planner/
+  offline/
+  location/
+  accessibility/
+
+features/
+  home/
+  explore/
+  heritage/
+  planner/
+  guide/
+  profile/
+
+services/
+  aiService.ts
+  locationService.ts
+  mapService.ts
+  offlineService.ts
+  realtimeService.ts
+  heritageService.ts
+  audioService.ts
+
+store/
+  userStore.ts
+  siteStore.ts
+  offlineStore.ts
+  itineraryStore.ts
+
+data/
+  sites/
+  stories/
+  locations/
+  experiences/
+  mock/
+
+types/
+  heritage.ts
+  user.ts
+  itinerary.ts
+  location.ts
+  services.ts
+  common.ts
+
+hooks/
+utils/
+constants/
+i18n/
+  en.json
+  hi.json
+  mr.json
+  ...
+assets/
+  images/
+  audio/
+
+6. Module Responsibilities
+7. Navigation & Route Contract
+Bottom tabs: HOME, EXPLORE, PLAN, GUIDE, PROFILE. Deep-link route names should remain stable so feature modules can navigate without string hacks.
+8. TypeScript Domain Contracts
+The following interfaces are the minimum domain contract. Implementations may add optional metadata but must not remove required fields.
+9. Supporting Type Contracts
+Use discriminated unions/enums for values with finite states instead of free-form strings wherever practical.
+HeritageCategory: Fort, Temple, Palace, Monument, Cave, Museum, ArchaeologicalSite, CulturalLandscape.
+KnowledgeLabel: VERIFIED_FACT, ARCHAEOLOGICAL_EVIDENCE, LOCAL_TRADITION, INTERPRETATION.
+StructureStatus: ORIGINAL, RESTORED, RECONSTRUCTED.
+AvailabilityStatus: AVAILABLE, LIMITED, NOT_AVAILABLE.
+DownloadStatus: NOT_DOWNLOADED, DOWNLOADING, DOWNLOADED, FAILED.
+SiteStatus: OPEN, CLOSED, UNKNOWN.
+AudioState: IDLE, LOADING, PLAYING, PAUSED, COMPLETED, ERROR.
+Language codes should be stable identifiers for English, Hindi, Marathi and the future-language placeholders.
+Planner duration should use a controlled duration enum matching the specified five options.
+10. Service Layer Contracts
+11. Service Error Contract
+Services should return typed results or throw typed/domain errors that the UI can map to user-safe states. Avoid leaking raw provider errors to screens.
+12. State Management Design
+13. Persistence Requirements
+Persist onboarding completion and user profile/preferences.
+Persist preferred language.
+Persist accessibility settings.
+Persist downloaded site-pack metadata and local content required for offline access.
+Persist saved itineraries.
+Persist saved sites/recently viewed sites where required by the Profile/Home experience.
+Persist audio history if implemented as specified.
+Storage operations must be wrapped by a repository/service layer so the UI is not coupled to AsyncStorage/SQLite APIs.
+Use versioned storage keys/schema so future migrations are possible.
+14. Offline Site Pack Architecture
+A site pack is a versioned local bundle of the minimum content required to make a heritage site useful without connectivity.
+Check whether a site is already downloaded.
+Create/download a pack manifest.
+Persist content atomically where practical so partially downloaded content is not treated as complete.
+Expose progress.
+Mark DOWNLOADED only after required content is successfully stored.
+On failure, retain recoverable partial metadata only if the implementation can safely resume; otherwise clean up.
+Allow deletion.
+On offline access, read from local pack first.
+On reconnect, sync/update only when a newer version is available.
+15. Search & Filtering
+Search across site name, city/state, heritage type, and supported searchable descriptive fields.
+Filters: State, Distance, Heritage type, UNESCO, ASI, Duration, Accessibility, Offline available.
+Filter state must be serializable for navigation/state restoration.
+Search/filter results must work using local data without backend connectivity.
+Use FlatList for result rendering.
+Debounce free-text search if it is implemented as an input-driven query.
+Empty result state must explain that no matching sites were found and provide a clear reset action.
+16. Recommendation Logic
+The source requires recommendations based on user interests but does not define a ranking algorithm. The prototype should use deterministic local matching rather than pretending to have a trained recommendation model.
+Match site heritage type/highlights against user interests.
+Prefer downloaded/offline-ready content when the user is offline.
+Use recent views to populate Continue Exploring.
+Do not claim recommendations are AI-derived unless the AI service actually generated them.
+Keep the recommendation function replaceable by a future ranking service.
+17. AI Guide Technical Behavior
+The prototype AI Guide must be useful without requiring a real LLM backend.
+Input: user message + current site context + relevant structured heritage records + language preference.
+Retrieve relevant structured content before generating the mock answer.
+Return answer text plus source references where available.
+Return related places and follow-up questions where applicable.
+Clearly preserve knowledge labels/provenance.
+Do not fabricate sources.
+Do not expose secrets.
+Do not place response logic directly inside chat components.
+Future external implementation: mobile client → secure backend → retrieval/RAG → LLM → structured response. The mobile client must not directly contain provider API secrets.
+18. Itinerary Generation Contract
+Planner generation must be deterministic and explainable in the prototype.
+Validate required inputs using React Hook Form + Zod.
+Select compatible stops from site/location/experience data.
+Respect requested duration as a hard planning constraint where possible.
+Return stop sequence, stop duration, total duration, walking distance, estimated cost, accessibility metadata, and offline availability.
+Do not claim exact real-world routing distance when mock map data is being used; label mock/demo values appropriately in internal data and UI copy where needed.
+Save generated itinerary through itineraryStore.
+START ROUTE navigates into route/map behavior; DOWNLOAD OFFLINE triggers site-pack workflow.
+19. Location Architecture
+Request location permission only when a location-dependent feature is invoked.
+Expose permission state to UI.
+Use Expo Location for current coordinates.
+Keep a watch subscription lifecycle-safe and stop it when no longer needed.
+Map current coordinates to site/LocationPoint using the location service/repository boundary.
+Implement SIMULATE LOCATION for deterministic demo behavior.
+Keep geofencing-ready event contracts separate from current GPS proximity logic.
+Manual location selection must remain available when GPS is unavailable.
+20. Map Architecture
+Initial maps are mock-data driven. The map layer must not force a specific production provider into the rest of the app.
+SiteMap model contains points, facilities, routes, and accessibility metadata.
+mapService owns provider-independent retrieval.
+UI consumes normalized points/routes.
+Future provider adapter may target Google Maps, Mapbox, or OpenStreetMap without rewriting site feature screens.
+Accessible route must be represented distinctly from standard route.
+21. Audio Architecture
+Use Expo Audio.
+Audio screen/player must support play/pause, progress, speed, and language selection.
+Audio metadata must be separate from UI.
+Audio assets may be bundled/mock for prototype.
+Player lifecycle must stop/release resources appropriately on unmount/navigation.
+Text story must remain usable if audio is unavailable.
+22. i18n Architecture
+All UI labels, buttons, error messages, empty states, settings labels, and navigation-visible strings come from i18n.
+English, Hindi, Marathi are complete prototype locales.
+Bengali, Tamil, Telugu, Kannada, Gujarati, Punjabi, Malayalam have stable locale structure/placeholders.
+Dynamic heritage content is separate from UI translations and must carry a language field.
+Changing language updates UI without requiring app restart unless the chosen i18n implementation technically requires it.
+23. Accessibility Implementation
+Large Text must use scalable typography rather than isolated hardcoded sizes.
+High Contrast must increase contrast through the design system.
+Simple Language is a content preference passed into supported content/AI behavior; it must not silently rewrite verified facts.
+Audio Guidance toggles preferred audio behavior.
+Reduced Motion disables/reduces nonessential animations.
+Interactive controls must expose meaningful accessibility labels.
+Do not encode information only through color; availability states must include text/icon semantics.
+24. Realtime Mock Architecture
+Mock data must be deterministic enough for repeatable demos.
+Expose weather, crowd, site status, and closure values through realtimeService.
+When real APIs are unavailable, clearly model unknown/unavailable values instead of inventing current observations.
+Future providers must implement the same service interface.
+25. Local Experience Architecture
+Experience records must contain enough metadata for category, location, duration, price, and verification display.
+Verified Local Experience is a data attribute, not a visual claim invented by the UI.
+No payment SDK or checkout flow.
+Booking integration remains a future service boundary.
+26. Content Provenance Model
+Heritage content must be provenance-aware at the data layer, not only visually labeled.
+If a source field is unavailable, the UI must not fabricate one.
+27. Sample Data Rules
+Seed at least the ten required heritage sites.
+Keep sample descriptions concise and source-oriented.
+Do not invent questionable historical facts.
+Where a fact cannot be supported by the source dataset, omit it or mark it as unavailable rather than generating a confident statement.
+Mock coordinates/status values must be treated as demo data unless sourced from a real dataset.
+28. Demo Mode Technical Contract
+DEMO MODE is an application state/configuration, not a separate fake application.
+Home loads seeded content.
+Explore opens seeded Qutub Minar.
+Site pack download uses local/mock download implementation with visible progress.
+Start Exploring opens location-aware site flow.
+Simulate Location selects a deterministic LocationPoint.
+Location-specific story becomes available.
+Audio player loads bundled/mock audio.
+AI Guide answers using structured local data.
+Planner generates 45-minute itinerary.
+Offline Mode can be simulated or triggered by offline state and continues to read downloaded pack.
+Continue Exploring returns to site discovery.
+Demo mode must remain visually consistent with normal product mode.
+29. UI Component Architecture
+Create reusable Button, IconButton, Card, Badge, SearchBar, FilterChip, SectionHeader, EmptyState, ErrorState, LoadingState, OfflineBanner, ProgressIndicator, Modal/Sheet, ListItem and accessibility-aware primitives as needed.
+Heritage-specific components: SiteCard, SiteBadge, ProvenanceLabel, StoryCard, AudioPlayer, FacilityItem, AccessibilityStatus, TimelineItem, LocationPointItem, ExperienceCard.
+Do not duplicate identical visual logic across screens.
+Visible CTA components must accept an explicit action handler; no inert placeholder buttons.
+30. Form & Validation Requirements
+Use React Hook Form + Zod for complex forms. Error messages must be localized.
+31. Async & Query Rules
+TanStack Query handles remote/server-like data retrieval and cache state.
+Query keys must be stable and include relevant site/filter parameters.
+Do not duplicate the same server/cache state in multiple Zustand stores.
+Mutation-like actions such as download/save/sync should expose pending/success/error state.
+Use stale/cache behavior appropriate to mock/local data; exact values are implementation decisions, not product claims.
+32. Performance Requirements
+Use FlatList/virtualized lists for long content collections.
+Optimize image dimensions/assets.
+Avoid unnecessary global-store subscriptions.
+Use memoization only where it reduces measurable/unambiguous rerender cost.
+Lazy-load feature screens/assets where practical.
+Do not keep location watchers or audio resources active after they are no longer needed.
+Offline pack downloads should not block the main UI thread.
+33. Error, Empty & Loading UX
+34. Security Requirements
+No provider API keys or secrets in source-controlled mobile code.
+Environment configuration may contain only non-secret public configuration.
+Real external AI/API calls must go through a secure backend when credentials are required.
+Do not store unnecessary sensitive user information.
+Validate and sanitize external content before rendering where applicable.
+Do not trust source/verification flags supplied by arbitrary clients in a future backend; backend/CMS must own verification authority.
+35. Permissions
+Location permission is required only for location-aware functionality.
+Audio permissions should follow Expo/platform requirements.
+Permission denial must not make the entire application unusable.
+Manual location selection and demo simulation provide a non-GPS path.
+Do not request permissions during onboarding unless the product flow explicitly needs them.
+36. Testing Strategy
+37. Acceptance Test Matrix
+38. Build & Run Requirements
+Install dependencies with npm install.
+Start with npx expo start.
+Run TypeScript/static checks before completion.
+Run the application on a supported Expo target/device.
+Check route registration.
+Check permission behavior.
+Check local persistence across reload/restart.
+Check offline behavior.
+Remove unused dependencies/imports.
+Verify no secrets are committed.
+39. Antigravity Build Instructions
+Create the complete project structure before implementing feature details.
+Create shared types, constants, i18n, seeded data, and service interfaces first.
+Implement app navigation and tab structure.
+Implement design-system primitives and common states.
+Implement onboarding and persistence.
+Implement Home and Explore using local heritageService.
+Implement Site Detail, stories, provenance, facilities, accessibility, and audio.
+Implement offline repository/service and Downloads UI.
+Implement location service and demo simulation.
+Implement mapService with mock site maps.
+Implement AI Guide through aiService mock implementation.
+Implement planner generation through a deterministic service/store flow.
+Implement Profile, language, accessibility, settings, and history.
+Implement realtime/local-experience modules.
+Wire the complete demo flow.
+Run acceptance tests and fix all navigation/state/TypeScript issues before declaring completion.
+40. Dependency Discipline
+Use only dependencies required by the specified stack or justified by a concrete implementation need.
+Do not add a second state-management library.
+Do not add multiple navigation systems.
+Do not add multiple styling systems unnecessarily.
+Do not add an AI SDK to the client if the prototype uses a local mock service.
+Do not add payment SDKs.
+Do not add AR SDKs.
+41. Observability / Debugging Contract
+Development builds should log service failures with enough context to diagnose the feature without exposing secrets.
+User-facing errors must be safe and localized.
+Demo mode should make simulated location and mock service behavior diagnosable during development without exposing internal debug UI to normal users.
+Exact production telemetry tooling is not defined by the source and should be selected separately if needed.
+42. Data Consistency Rules
+Every HeritageStory.siteId must reference an existing HeritageSite.
+Every LocationPoint.siteId must reference an existing HeritageSite.
+Saved itineraries must reference valid destination/stops.
+Downloaded pack records must reference a valid site.
+Language values must use supported locale identifiers.
+Verification metadata must never be fabricated by UI defaults.
+Deleted site packs must not remain marked as available offline.
+43. Offline Sync Rules
+Local downloaded content is the source for offline reads.
+Sync must be safe to retry.
+Sync must not destroy a valid downloaded pack because a network request temporarily fails.
+Pack version/lastUpdated metadata should support future update detection.
+Conflict policy for user-created local data such as saved plans should preserve the user's local data; exact multi-device sync is outside this prototype.
+44. API-Readiness Contract
+Every mock service must have a provider-independent interface. Real API integration later should replace the implementation, not force screen rewrites.
+45. Architecture Boundary: AR
+AR is explicitly excluded from the current build. The architecture may expose future extension points such as LocationPoint content, camera-independent contextual content, and provider-neutral services, but must not include AR camera overlays, object recognition, tracking, AR navigation, or AR permissions.
+No acceptance test should require AR.
+46. Known Technical Decisions Not Supported by the Source
+The source does not specify exact choices for the following. The implementation should choose a practical option and document it in code/README, but these are not to be represented as source requirements:
+Exact Expo SDK version.
+AsyncStorage versus SQLite.
+Exact map rendering package.
+Exact i18n library.
+Exact TanStack Query persistence configuration.
+Exact testing framework.
+Exact CI provider.
+Exact analytics/telemetry provider.
+Exact backend framework.
+Exact RAG/vector database.
+Exact cloud storage/CDN.
+These choices should remain replaceable and must not alter the product behavior defined by the PRD.
+47. Definition of Done
+Project installs and launches with the specified commands.
+TypeScript checks pass.
+All specified routes are implemented.
+All visible primary CTAs have functional actions.
+Required local/mock services exist and are used through service boundaries.
+Onboarding preferences persist.
+Search and filtering work.
+Site content includes provenance metadata.
+Stories and audio work or fail gracefully.
+AI Guide works through the mock service without client secrets.
+Planner generates and saves a personalized itinerary.
+GPS/manual/demo location flows work.
+Offline site pack can be downloaded, persisted, opened offline, and deleted.
+English/Hindi/Marathi UI is implemented.
+Accessibility settings work.
+Realtime and local experience surfaces work with mock data.
+Loading, empty, error, and offline states exist.
+Full demo sequence completes.
+No AR functionality is present.
+No real payment flow is present.
+Unused dependencies and obvious dead code are removed.
+48. Final Antigravity Instruction
+Build SARTHI as a real working mobile application, not a static UI mockup. Implement the complete PRD using the architecture and contracts in this TRD. When a real backend/provider is unavailable, implement a functional local/mock service behind the same interface. Never replace a required behavior with an inert button, fake navigation, or a screen that only looks complete. Preserve provenance, offline functionality, multilingual architecture, accessibility, service boundaries, and the explicit AR exclusion.
+49. Source Integrity Statement
+This TRD is grounded in the supplied SARTHI specification and the generated PRD. It distinguishes source-supported product requirements from low-level technical decisions that the source did not define. It does not make predictions about adoption, success, performance, historical accuracy beyond the stated provenance requirement, or availability of future external integrations.
+
+END OF TRD
+Area | Requirement
+Framework | React Native
+Runtime | Expo
+Language | TypeScript with strict typing
+Navigation | Expo Router
+Animation | React Native Reanimated
+Gestures | React Native Gesture Handler
+Haptics | Expo Haptics
+Audio | Expo Audio
+Location | Expo Location
+Persistence | AsyncStorage or SQLite
+Server state | TanStack Query / React Query
+Global state | Zustand
+Styling | NativeWind OR reusable StyleSheet design system; do not mix systems unnecessarily
+Forms | React Hook Form + Zod
+Start | npm install; npx expo start
+
+Module | Responsibility | Must not do
+app/ | Route composition and screen entry points | Business logic or duplicated domain rules
+components/ | Reusable visual/interaction primitives | Feature-specific data fetching
+features/ | Feature UI, feature hooks, composition | Direct third-party API calls
+services/ | External/data-domain operations | Rendering UI
+store/ | Global client state and durable state coordination | Remote request caching
+data/ | Static/mock seed data | Hardcoded UI-only strings
+types/ | Shared TypeScript contracts | Runtime side effects
+i18n/ | Localized UI strings | Business logic
+
+Route | Screen contract
+/onboarding | Onboarding + preference setup; redirect to home after completion
+/home | Personalized discovery home
+/explore | Search, filters, results, list/map toggle
+/explore/[siteId] | Explore entry for a selected site
+/site/[siteId] | Site overview shell
+/site/[siteId]/overview | Overview
+/site/[siteId]/stories | Stories
+/site/[siteId]/map | Map and points
+/site/[siteId]/facilities | Facilities
+/site/[siteId]/accessibility | Accessibility
+/site/[siteId]/audio | Audio guide
+/plan | Plans list/current plans
+/plan/create | Planner form
+/plan/result | Generated itinerary
+/guide | Guide entry
+/guide/chat | AI conversation
+/profile | Profile
+/profile/language | Language
+/profile/accessibility | Accessibility settings
+/profile/downloads | Offline packs
+/profile/settings | Settings
+
+Type | Required properties
+HeritageSite | id, name, slug, city, state, country, coordinates, description, images, heritageType, unesco, asiProtected, estimatedVisitTime, languages, offlineAvailable, facilities, accessibility, stories, highlights
+HeritageStory | id, siteId, title, summary, content, category, source, sourceUrl, verified, verifiedBy, lastUpdated, labels
+LocationPoint | id, siteId, name, type, latitude, longitude, description, stories, audio, accessibility
+UserProfile | id, name, language, interests, mobility, ageGroup, preferences
+Itinerary | id, destination, duration, stops, estimatedCost, walkingDistance, createdAt
+
+Service | Required methods | Implementation
+aiService | generateAnswer(), generateItinerary(), explainHeritage(), recommendNextStop() | Mock structured-data implementation now; external LLM/RAG later
+locationService | getCurrentLocation(), requestPermission(), watchLocation(), stopWatching(), simulateLocation() | Expo Location + demo simulation
+mapService | getSiteMap(), getNearbyFacilities(), getRoute(), getAccessibleRoute() | Mock site-map repository now; maps provider later
+offlineService | downloadSitePack(), deleteSitePack(), getDownloadedSites(), isSiteAvailableOffline(), syncOfflineData() | Local persistent implementation
+realtimeService | getWeather(), getCrowdLevel(), getSiteStatus(), getClosures() | Realistic mock implementation now; APIs later
+heritageService | getSites(), getSiteById(), searchSites(), filterSites(), getStories(), getNearbyExperiences() | Local dataset first; API-ready boundary
+audioService | loadAudio(), play(), pause(), seek(), setSpeed(), setLanguage(), stop() | Expo Audio implementation over bundled/mock assets
+
+Error category | UI behavior
+Network unavailable | Use cached/downloaded data; show offline banner where relevant
+Content missing | Show not-found/empty state and safe navigation
+Permission denied | Explain the feature limitation and provide manual/demo alternative where applicable
+Download failure | Show failed state and retry
+AI unavailable | Use mock/local fallback where supported; otherwise explain limitation
+Audio failure | Show retry/error state without blocking text story
+Realtime unavailable | Show unknown/unavailable rather than inventing live status
+
+State | Owner | Persistence
+User profile/preferences | Zustand userStore | Yes
+Selected/current site UI state | Zustand siteStore where needed | Only durable parts if useful
+Downloaded packs/status | offlineStore + persistence | Yes
+Saved/current itineraries | itineraryStore + persistence | Yes
+Remote/query cache | TanStack Query | Cache policy; durable persistence only if later required
+Audio playback state | Feature/audio state | No need for durable persistence except history
+Accessibility settings | userStore | Yes
+Demo mode / simulation state | Zustand/local state | Optional; may persist for demo convenience
+
+Pack component | Required offline behavior
+Site metadata | Readable offline
+Stories | Readable offline
+Maps/points | Readable offline
+Facilities | Readable offline
+Accessibility | Readable offline
+Audio metadata/assets | Available if included in pack
+Images | Available if included in pack
+QR-ready content | Data structure available offline
+Pack manifest | Tracks version, size/status, last sync/update
+
+Field | Requirement
+source | Human-readable source name
+sourceUrl | Optional URL/reference if available
+sourceType | Controlled source classification
+verified | Boolean verification state
+verifiedBy | Verifier identity/role where available
+lastUpdated | Timestamp/date
+labels | One or more knowledge/structure labels
+
+Form | Validation expectation
+Onboarding | Name/language/preferences use appropriate required/optional rules; skip behavior explicit.
+Planner | Destination and duration required; other inputs validated according to their type/allowed values.
+Profile/settings | Use controlled values and persist valid changes.
+Search/filter | Never crash on empty/partial input.
+
+State | Required UI
+Loading | Skeleton/spinner/progress appropriate to operation
+Empty search | No-result explanation + clear filters/reset
+No saved plans | Empty state + create plan CTA
+No downloads | Empty state + explore/download CTA
+Download failed | Failure state + retry/delete partial data
+Site missing | Not-found state + back/explore CTA
+AI failure | Recoverable message + suggested questions/local fallback where available
+Audio failure | Text remains available + retry
+Location denied | Permission explanation + manual/simulated location option
+Offline | Offline banner + downloaded content access
+
+Layer | Minimum verification
+TypeScript | Strict typecheck passes with no intended errors.
+Services | Unit-test deterministic service logic, filters, planner generation, provenance handling, and offline state transitions.
+Stores | Test persistence/hydration and important state transitions.
+Forms | Test required fields, invalid values, submit behavior, and localized errors.
+Navigation | Verify every specified route opens and back navigation works.
+UI flows | Verify major CTA flows and empty/loading/error states.
+Offline | Disable connectivity and verify downloaded content remains usable.
+Location | Test permission states and deterministic simulation.
+Audio | Test play/pause/progress/speed/error lifecycle.
+Demo | Run the entire specified demo flow end-to-end.
+
+Test ID | Scenario | Pass condition
+AT-01 | Fresh install | Onboarding appears and can be completed.
+AT-02 | Skip optional onboarding | User reaches app without invalid required state.
+AT-03 | Persist profile | Restart preserves relevant preferences.
+AT-04 | Explore search | Search returns matching seeded sites.
+AT-05 | Explore filters | Each specified filter changes results correctly.
+AT-06 | Site detail | Qutub Minar opens with required sections and actions.
+AT-07 | Provenance | Important content shows source/verification metadata without invented source.
+AT-08 | Stories | Story read/listen paths work.
+AT-09 | Audio | Play/pause/progress/speed/language controls function or fail gracefully.
+AT-10 | AI Guide | Structured local answer returns with source context where available.
+AT-11 | Planner | 45-minute plan can be generated and saved.
+AT-12 | Location simulation | Selected simulated point triggers contextual content.
+AT-13 | Offline download | Site pack reports progress and becomes available offline after success.
+AT-14 | Offline mode | Downloaded site remains usable without network.
+AT-15 | Language | English/Hindi/Marathi UI can be switched.
+AT-16 | Accessibility | Large text/high contrast/reduced motion/audio guidance settings affect app behavior.
+AT-17 | Realtime | Mock status renders; unavailable state does not fabricate live data.
+AT-18 | Profile | Saved/downloaded/history/settings surfaces work.
+AT-19 | Navigation | All listed routes and back paths work.
+AT-20 | Demo | Full prescribed demo sequence completes without backend dependency.
+
+Current implementation | Future replacement
+Local heritageService | Heritage/content API or CMS
+Mock aiService | Secure backend + RAG + LLM provider
+Mock mapService | Google Maps / Mapbox / OpenStreetMap adapter
+Mock realtimeService | Weather/crowd/site-status providers
+Local offline repository | Backend sync + versioned content delivery
+Bundled/mock audio | TTS/CDN/audio content service
+Local experiences | Verified experience/booking backend
+

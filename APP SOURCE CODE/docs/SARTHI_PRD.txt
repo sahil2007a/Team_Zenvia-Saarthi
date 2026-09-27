@@ -1,0 +1,443 @@
+SARTHI
+AI-Powered Heritage Companion
+Product Requirements Document (PRD)
+Tagline: “From where you are, to what it means.”
+Build target: Real working mobile application prototype
+
+Document Control
+1. Product Definition
+SARTHI is an AI-powered, mobile-first, offline-capable heritage companion focused on helping visitors understand Indian heritage sites in context. The product is not positioned as a booking app.
+Core product principle: Sarthi should not simply answer “What is this monument?” It should answer: “What am I looking at RIGHT NOW, why does it matter, what should I explore next, and can you explain it in a language and format I understand?”
+2. Problem Statement
+Fragmented information while visiting heritage sites.
+Unreliable or outdated information.
+Weak historical and cultural context.
+Lack of personalization.
+Language and accessibility barriers.
+Poor connectivity.
+Lack of structure-level guidance.
+Difficulty discovering lesser-known heritage places.
+3. Product Solution
+Verified heritage knowledge with provenance.
+AI explanations through an API-ready service abstraction.
+Location-aware guidance using GPS and a geofencing-ready architecture.
+Personalized micro-itineraries.
+Multilingual text and audio.
+Offline site packs.
+Navigation and site maps.
+Real-time information abstractions.
+Local experiences.
+4. Product Goals
+Deliver a functional, real mobile application rather than a static UI mockup.
+Make heritage knowledge understandable, contextual, and provenance-aware.
+Support exploration even when connectivity is unavailable for downloaded content.
+Personalize discovery and itinerary generation using stored user preferences.
+Support multilingual UI with English, Hindi, and Marathi fully implemented in the prototype.
+Provide accessibility controls and site accessibility information.
+Keep external services replaceable through service abstractions.
+Provide a reliable hackathon/demo flow without making demo mode look fake or game-like.
+5. Non-Goals / Explicit Scope Exclusions
+AR functionality is NOT implemented in this version.
+Real payments are NOT implemented.
+A full admin application is NOT implemented.
+Live map APIs are NOT required initially; mock map data is acceptable behind an API-ready architecture.
+Real external AI/LLM integration is not required for the prototype; structured heritage data may back the mock intelligent response engine.
+API secrets must never be exposed in the React Native client.
+6. Target Product Experience
+7. Users & Primary Use Cases
+Tourist visiting an Indian heritage site and wanting contextual explanations.
+Visitor with limited time who needs a personalized 30–45 minute or longer route.
+Visitor who prefers Hindi, Marathi, or another supported language.
+Visitor who needs accessible routes/facilities information.
+Visitor with poor connectivity who needs downloaded site content.
+Demo/judge who needs to experience the core location-aware, AI, itinerary, and offline flow without physically moving.
+8. Information Architecture & Navigation
+Primary bottom navigation: HOME, EXPLORE, PLAN, GUIDE, PROFILE.
+9. Onboarding Requirements
+The onboarding flow contains 3–4 value-oriented screens followed by preference collection.
+Interest categories: Architecture, History, Culture, Religion, Photography, Local Stories, Food, Craft, Nature.
+Allow Skip where appropriate.
+Persist onboarding preferences locally.
+10. Home Requirements
+Header: “Namaste, [Name] 👋”
+Subtitle: “Where would you like to explore today?”
+Search: “Search heritage sites, cities or experiences”
+Hero: “Explore India's Stories” with featured heritage destination.
+Quick actions: Explore Nearby, Plan My Visit, Download Site, AI Guide.
+Recommended for you section based on user interests.
+Popular Heritage Sites section.
+Continue Exploring section for recently viewed sites.
+Popular/recommended site cards should expose image, name, city/state, heritage category, UNESCO/ASI status where applicable, estimated visit duration, and offline availability.
+11. Explore Requirements
+Search-based discovery interface.
+Filters: State, Distance, Heritage type, UNESCO, ASI, Duration, Accessibility, Offline available.
+Categories: Fort, Temple, Palace, Monument, Cave, Museum, Archaeological Site, Cultural Landscape.
+Each result: image, name, location, short description, distance, opening status, estimated visit time, offline pack status.
+LIST / MAP toggle.
+Map can use mock data initially; architecture must remain API-ready.
+12. Heritage Site Detail Requirements
+Reference example: Qutub Minar, Delhi, UNESCO World Heritage Site.
+Header image.
+Site name, city/state/location context.
+UNESCO/ASI and other applicable badges.
+Verified Knowledge, Offline Available, and Audio Available indicators where true.
+Primary CTA: START EXPLORING.
+Secondary CTA: DOWNLOAD SITE.
+Sections: Overview, Why It Matters, Historical Timeline, Architecture, What You Are Looking At, Stories, Map, Facilities, Accessibility, Audio Guide, Nearby Experiences.
+13. Verified Knowledge & Provenance Requirements
+Important heritage facts must expose provenance. AI-generated claims must not be presented as unquestionable facts.
+Displayed provenance metadata should include source, verification status, verifier where available, and last-updated date. Example source in the specification: Archaeological Survey of India.
+14. Heritage Stories & Audio
+Story cards covering Architecture, Historical Context, Hidden Detail, Local Story, and Why It Matters.
+Actions: READ STORY and LISTEN.
+Audio player: Play/Pause, Progress, Speed, Language.
+Prototype may use bundled/mock audio files or placeholder audio service functions.
+Audio service must be replaceable with a real TTS/audio service later.
+15. AI Guide Requirements
+AI Guide screen title: “Sarthi Guide”. Subtitle: “Ask me anything about this place.”
+Suggested questions: “What am I looking at?”, “Why is this monument important?”, “Tell me the story in simple Hindi.”, “What should I see next?”, “I have 30 minutes. What should I explore?”, “Which parts are original?”
+Chat supports user messages, AI responses, source citations, related places, and suggested follow-up questions.
+AI behavior must be implemented behind aiService.ts rather than embedded directly in UI components.
+Required abstraction methods: generateAnswer(), generateItinerary(), explainHeritage(), recommendNextStop().
+Prototype response engine is backed by structured heritage data.
+Future architecture may connect an LLM + RAG backend.
+Never place an API secret in the mobile client.
+16. Personalized Trip Planner
+Title: “Plan My Heritage Experience”.
+Inputs: Destination, Available time, Budget, Interests, Travel group, Age group, Mobility requirements, Preferred language.
+Duration options: 30–45 min, 1–2 hours, 2–3 hours, Half day, Full day.
+Generated itinerary includes time, stop, duration, total duration, walking distance, estimated cost, accessibility, and offline availability.
+Actions: START ROUTE, SAVE PLAN, DOWNLOAD OFFLINE.
+Reference itinerary sequence in the source: Main Gateway → Central Monument → Architectural Gallery → Hidden Heritage Point → Local Craft Experience. This is an illustrative product-flow example, not a factual claim about any particular site.
+17. Location-Aware Experience
+AR is excluded.
+Use Expo Location for GPS.
+Architecture must be geofencing-ready.
+Support map selection, manual location selection, and QR-ready architecture.
+When near a point, show contextual prompt such as “You're near the Main Gateway.”
+Offer Architecture, History, Story, and Audio choices.
+Development/demo mode must include SIMULATE LOCATION.
+18. Map & Navigation
+Site map screen with Entrance, Important structures, Toilets, Drinking water, Exit, Parking, Accessible route, Viewpoints, Food, Information desk.
+Initial implementation may use mock map data.
+mapService.ts required with getSiteMap(), getNearbyFacilities(), getRoute(), getAccessibleRoute().
+Architecture should later support Google Maps, Mapbox, or OpenStreetMap.
+19. Offline-First Requirements
+Offline Site Packs are a CORE product capability.
+Pack contains site metadata, maps, stories, audio metadata, images, facilities, accessibility information, QR content, and lightweight heritage assets.
+Offline Downloads screen shows downloaded, downloading/progress, and not-downloaded states.
+Actions include DOWNLOAD SITE PACK and deletion of downloaded content.
+Required offlineService.ts methods: downloadSitePack(), deleteSitePack(), getDownloadedSites(), isSiteAvailableOffline(), syncOfflineData().
+Show banner: “Offline Mode — Your downloaded heritage content is still available.”
+App must remain usable without internet for downloaded content.
+20. Multilingual Requirements
+Supported language list: English, Hindi, Marathi, Bengali, Tamil, Telugu, Kannada, Gujarati, Punjabi, Malayalam.
+All UI strings must come from i18n/.
+Prototype must fully implement English + Hindi + Marathi.
+Other languages must have architecture/placeholders.
+Create en.json, hi.json, mr.json.
+AI Guide should follow the language preference.
+21. Accessibility Requirements
+Settings: Large Text, High Contrast, Simple Language, Audio Guidance, Reduced Motion.
+Site accessibility section: Accessible Entrance, Ramp, Accessible Toilet, Parking, Battery Vehicle, Rest Areas.
+Availability states: ✓ Available, ⚠ Limited, ✕ Not Available.
+22. Real-Time Information
+Live Site Status component.
+Display OPEN/CLOSED state, crowd level, weather, and closure status where data exists.
+Prototype uses realistic mock data.
+realtimeService.ts methods: getWeather(), getCrowdLevel(), getSiteStatus(), getClosures().
+Future integrations may include Weather API, Crowd API, and Site Manager CMS.
+23. Local Experiences
+Categories: Artisans, Local Food, Craft Workshops, Homestays, Cultural Performances, Local Guides.
+Cards: Image, Name, Location, Duration, Price, Verified badge.
+Use “Verified Local Experience” where the product has verification metadata.
+Do not implement real payments in this version.
+Create service architecture for future booking integration.
+24. Profile Requirements
+Profile: Name, profile photo, preferred language, interests.
+Sections: My Plans, Saved Sites, Downloaded Sites, Audio History, Accessibility, Language, Settings.
+Stats: Sites Explored, Stories Heard, Places Saved.
+25. Content / Admin Architecture
+No full admin application is required in this version. Backend/content interfaces must nevertheless support future management of:
+Sites
+Stories
+Sources
+Languages
+Audio
+Facilities
+Closures
+Accessibility
+Routes
+Local experiences
+Every content object should support: id, title, description, source, sourceType, verified, verifiedBy, lastUpdated, language, location.
+26. Data Model Requirements
+27. Required Initial Heritage Dataset
+Create realistic sample data for at least the following ten sites. The product specification explicitly requires avoiding questionable historical facts and keeping sample content concise and source-oriented.
+Qutub Minar
+Taj Mahal
+Hampi
+Ajanta Caves
+Ellora Caves
+Khajuraho
+Sanchi Stupa
+Red Fort
+Konark Sun Temple
+Fatehpur Sikri
+28. Product Architecture Requirements
+The product must use a clean modular architecture. The following structure is required as the baseline:
+app/
+components/
+features/
+services/
+store/
+data/
+types/
+hooks/
+utils/
+constants/
+i18n/
+assets/
+Suggested services: aiService.ts, locationService.ts, mapService.ts, offlineService.ts, realtimeService.ts, heritageService.ts, audioService.ts.
+Suggested stores: userStore.ts, siteStore.ts, offlineStore.ts, itineraryStore.ts.
+Suggested feature modules: home/, explore/, heritage/, planner/, guide/, profile/.
+29. UX / Visual Product Requirements
+Premium Indian heritage + modern AI visual direction.
+Avoid generic AI chatbot appearance, excessive gradients, gaming UI, neon colors, overly futuristic interfaces, template-looking cards, and excessive rounded rectangles.
+Visual identity: Deep Navy/Heritage Blue primary; Warm Gold/Sand secondary; Warm Ivory/Off-white background; muted green for verified/success; muted red for alerts; muted purple for AI.
+Use Indian heritage photography where appropriate.
+Strong typography hierarchy.
+Subtle shadows.
+Meaningful icons.
+Reusable components instead of duplicated UI.
+Overall feel: premium, trustworthy, cultural, modern, calm, professional, government/travel-tech credible.
+30. Demo Mode Requirements
+Create a DEMO MODE specifically for hackathon presentation. The demo indicator must be subtle and must not make the application look fake or game-like.
+Home
+Explore
+Qutub Minar
+Download Site Pack
+Start Exploring
+Simulate Location
+Location-specific Story
+Listen
+Ask Sarthi Guide
+Generate 45-minute itinerary
+Offline Mode
+Continue Exploring
+The demo flow must exercise the product's central differentiators: heritage content, offline capability, location awareness, audio, AI Guide, and itinerary generation.
+31. Functional Quality Requirements
+All navigation routes must work.
+Every visible CTA must perform an action.
+Back navigation must work correctly.
+Loading states must exist.
+Empty states must exist.
+Error states must exist.
+Offline states must exist.
+Forms must validate.
+Important user preferences must persist locally.
+TypeScript types must be used properly.
+The app must work without backend connectivity using local/mock data.
+Long lists should use FlatList.
+Images should be optimized.
+Avoid unnecessary re-renders.
+Unused dependencies should be removed.
+Expo compatibility must be maintained.
+The application must launch successfully.
+32. Technical Product Constraints
+Do not introduce unnecessary dependencies.
+33. Acceptance Criteria by Major Capability
+34. Product-State Requirements
+35. Security & Trust Requirements
+Never expose API secrets in the React Native client.
+Separate UI from business logic and service integrations.
+AI-generated heritage claims must not be presented as unquestionable facts.
+Provenance must be visible for important heritage content.
+Content labels must distinguish verified facts, archaeological evidence, local tradition, and interpretation.
+Service boundaries must allow real APIs to replace mock implementations without rewriting UI.
+36. Traceability: Source Requirement Coverage
+This section maps the major requirement groups in the supplied specification to this PRD. It is intended to prevent feature loss when the PRD is handed to implementation tooling such as Antigravity.
+37. Implementation Handoff Notes for Antigravity
+Treat this PRD as the product-level contract; do not remove a specified capability merely because its real external integration is unavailable.
+Where the source specification explicitly calls for mock/local behavior, implement a real working local/mock service rather than a dead UI placeholder.
+Keep service interfaces stable so external APIs can replace mocks later.
+Keep AR out of the current product surface. Only preserve architectural readiness.
+Build core navigation and project structure first, then implement each feature as an independently testable working module.
+Do not place business logic directly inside presentation components.
+Use the specified sample heritage sites and keep their content source-oriented.
+Do not invent questionable historical facts merely to fill cards or AI answers.
+Verify every visible CTA, route, persistence path, offline state, and demo step before declaring the prototype complete.
+38. Explicit Unknowns / Decisions Deferred to TRD
+The supplied product specification defines product requirements but does not fully specify the low-level implementation decisions below. These should be resolved in the TRD rather than silently invented in the PRD:
+Exact React Native/Expo SDK version.
+Exact persistence choice between AsyncStorage and SQLite.
+Exact TanStack Query configuration and cache policy.
+Exact Zustand store shapes beyond the named stores/entities.
+Exact navigation transition behavior.
+Exact image asset pipeline and compression thresholds.
+Exact mock API/service implementation details.
+Exact offline pack storage format and versioning strategy.
+Exact search/indexing implementation.
+Exact map rendering library for the initial mock-map experience.
+Exact audio asset format, packaging, and caching strategy.
+Exact test framework and CI pipeline.
+Exact error logging/observability tooling.
+Exact backend API contracts and RAG architecture.
+Exact source verification workflow/CMS governance.
+Exact permission prompts and OS-specific location behavior.
+These are not product omissions; they are intentionally left for the Technical Requirements Document (TRD), because the supplied source specification does not define them.
+39. Release Definition
+The release described by this PRD is complete only when the application behaves as a real working mobile prototype across the specified screens and flows, including local persistence, search/filtering, audio controls, personalized itinerary generation, location-aware demo behavior, offline site packs, multilingual UI, accessibility settings, and API-ready service abstractions.
+A static UI-only implementation does not satisfy this PRD.
+40. Source Integrity Statement
+This PRD is derived from the user-provided SARTHI specification. Requirements have been reorganized into product-document form for implementation clarity. No future product success, adoption, performance, factual completeness, or external API availability is predicted here. Where the source did not define a technical decision, the item is explicitly marked for TRD resolution rather than presented as a fact.
+
+END OF PRD
+Field | Value
+Product | SARTHI — AI-Powered Heritage Companion
+Document | Product Requirements Document (PRD)
+Purpose | Authoritative product scope and behavior definition for implementation
+Primary implementation target | React Native + Expo mobile application
+Source basis | User-provided SARTHI product specification
+AR status | Explicitly excluded from this version; architecture remains AR-ready
+Release posture | Production-quality working prototype; not a static UI mockup
+External API posture | API-ready abstractions; local/mock services required where APIs are unavailable
+
+Experience principle | Required product behavior
+Trust | Important heritage facts display provenance and verification metadata.
+Heritage | Visual and textual experience should feel premium, cultural, calm, and credible.
+Intelligence | AI Guide explains context and recommends what to explore next.
+Accessibility | User and site accessibility preferences/information are first-class product features.
+Personalization | Recommendations and itineraries use user interests and preferences.
+Offline-first | Downloaded site packs remain usable without internet connectivity.
+Location awareness | GPS/manual location and simulation enable contextual guidance.
+
+Route | Purpose
+/onboarding | Initial setup and preference collection
+/home | Personalized home and discovery
+/explore | Heritage discovery, search, filters, list/map
+/explore/[siteId] | Explore-specific site entry
+/site/[siteId] | Heritage site detail
+/site/[siteId]/overview | Site overview
+/site/[siteId]/stories | Stories
+/site/[siteId]/map | Site map
+/site/[siteId]/facilities | Facilities
+/site/[siteId]/accessibility | Accessibility
+/site/[siteId]/audio | Audio guide
+/plan | Saved/current plans
+/plan/create | Trip planner inputs
+/plan/result | Generated itinerary
+/guide | AI guide entry
+/guide/chat | AI conversation
+/profile | User profile
+/profile/language | Language settings
+/profile/accessibility | Accessibility settings
+/profile/downloads | Offline downloads
+/profile/settings | Application settings
+
+Screen / step | Requirements
+Onboarding 1 | “Discover India's heritage differently.”
+Onboarding 2 | “Understand what you're seeing.”
+Onboarding 3 | “Explore in your language.”
+Onboarding 4 | “Download before you go. Explore even offline.”
+CTA | GET STARTED
+Profile input | Name
+Preference | Preferred language
+Preference | Travel interests
+Preference | Available travel time
+Preference | Mobility/accessibility preferences
+Preference | Audio preference
+Preference | Age group
+Preference | Interest categories
+
+Label | Meaning / use
+VERIFIED FACT | Fact supported by the product's verified source record.
+ARCHAEOLOGICAL EVIDENCE | Content explicitly framed as archaeological evidence.
+LOCAL TRADITION | Content framed as local tradition rather than verified fact.
+INTERPRETATION | Interpretive content clearly labeled as interpretation.
+ORIGINAL | Structure/content element identified as original.
+RESTORED | Structure/content element identified as restored.
+RECONSTRUCTED | Structure/content element identified as reconstructed.
+
+Entity | Required fields
+HeritageSite | id, name, slug, city, state, country, coordinates, description, images, heritageType, unesco, asiProtected, estimatedVisitTime, languages, offlineAvailable, facilities, accessibility, stories, highlights
+HeritageStory | id, siteId, title, summary, content, category, source, sourceUrl, verified, verifiedBy, lastUpdated, labels
+LocationPoint | id, siteId, name, type, latitude, longitude, description, stories, audio, accessibility
+UserProfile | id, name, language, interests, mobility, ageGroup, preferences
+Itinerary | id, destination, duration, stops, estimatedCost, walkingDistance, createdAt
+
+Constraint | Requirement
+Framework | React Native
+Runtime/tooling | Expo
+Language | TypeScript
+Navigation | Expo Router
+Animation | React Native Reanimated
+Gestures | React Native Gesture Handler
+Haptics | Expo Haptics
+Audio | Expo Audio
+Location | Expo Location
+Persistence | AsyncStorage or SQLite
+Server state | TanStack Query / React Query
+Global state | Zustand
+Styling | NativeWind or clean reusable StyleSheet-based system
+Forms | React Hook Form + Zod
+Run command | npm install; npx expo start
+
+Capability | Definition of Done
+Onboarding | 3–4 onboarding screens, CTA, required preferences, validation where applicable, local persistence, skip behavior where appropriate.
+Home | Personalized greeting, search, hero, quick actions, recommendations, popular sites, continue exploring.
+Explore | Search, all specified filters, categories, result cards, list/map toggle.
+Site detail | Required metadata, badges, CTAs, all specified sections.
+Knowledge provenance | Important facts expose source/verification/updated metadata and labels.
+Stories/audio | Story categories, read/listen actions, working player controls, language support.
+AI Guide | Chat UI, structured-data mock engine through service abstraction, citations/related places/follow-ups.
+Planner | All specified inputs, duration choices, generated itinerary, save/start/download actions.
+Location | GPS, manual/demo simulation, contextual prompt, location service abstraction.
+Maps | Site points/facilities/routes, mock data, service abstraction.
+Offline | Site pack download/progress/delete/status, persistence, offline banner and access to downloaded content.
+Language | i18n architecture; English/Hindi/Marathi complete; future-language placeholders.
+Accessibility | Settings and site-level availability states.
+Realtime | Status component with mock service and required fields.
+Local experiences | Required categories/cards/verification label; no real payments.
+Profile | Required profile fields, sections, and stats.
+Demo mode | End-to-end specified demo flow works without external backend dependencies.
+
+State | Required handling
+Loading | Visible loading feedback while asynchronous data is being prepared.
+Empty | Clear empty-state message and useful next action.
+Error | Clear error state without crashing; retry/recovery where appropriate.
+Offline | Downloaded content remains accessible; offline banner communicates state.
+Downloading | Download progress/status visible.
+Unavailable | External/live feature failure must degrade to mock/local data where defined.
+Validation | Invalid planner/onboarding inputs must be surfaced before submission.
+Persisted | User preferences, saved plans, downloads, and relevant local state survive app restart.
+
+Source specification area | PRD coverage
+Technology stack | §32 Technical Product Constraints
+Product positioning/problem | §1–4
+Design direction | §29
+Main app structure/routes | §8
+Onboarding | §9
+Home | §10
+Explore | §11
+Heritage detail | §12
+Verified knowledge | §13
+Stories/audio | §14
+AI Guide | §15
+Trip planner | §16
+Location-aware experience | §17
+Maps/navigation | §18
+Offline-first | §19
+Multilingual | §20
+Accessibility | §21
+Realtime information | §22
+Local experiences | §23
+Profile | §24
+Admin/content architecture | §25
+Data model | §26
+Sample sites | §27
+Project structure | §28
+Engineering quality rules | §31, §34, §35
+Demo mode | §30
+Final quality requirements | §31, §33, §34
+Core product principle | §1 and §4
+
