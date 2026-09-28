@@ -1,4 +1,4 @@
-<img width="463" height="507" alt="Technical-Flow" src="https://github.com/user-attachments/assets/b479b7e9-56df-4fb8-8a66-43eeac658e46" />**SARTHI**
+**SARTHI**
 
 Discover. Understand. Experience. Explore.
 
