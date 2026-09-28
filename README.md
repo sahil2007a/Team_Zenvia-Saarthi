@@ -1,245 +1,612 @@
-# 🪔 SAARTHI (सारथी) — Team Zenvia
+<img width="463" height="507" alt="Technical-Flow" src="https://github.com/user-attachments/assets/b479b7e9-56df-4fb8-8a66-43eeac658e46" />**SARTHI**
 
-> **AI & AR-Powered Cultural Heritage Exploration Platform**  
-> *"From where you are, to what it means."*
+Discover. Understand. Experience. Explore.
 
-[![Expo SDK](https://img.shields.io/badge/Expo-SDK_57-000020.svg?style=flat&logo=expo)](https://expo.dev/)
-[![React Native](https://img.shields.io/badge/React_Native-0.86-61DAFB.svg?style=flat&logo=react)](https://reactnative.dev/)
-[![Node.js](https://img.shields.io/badge/Node.js-Express_API-339933.svg?style=flat&logo=node.js)](https://nodejs.org/)
-[![MongoDB Atlas](https://img.shields.io/badge/MongoDB-Atlas_Connected-47A248.svg?style=flat&logo=mongodb)](https://www.mongodb.com/atlas)
-[![Three.js](https://img.shields.io/badge/Three.js-WebGL_3D-black.svg?style=flat&logo=three.js)](https://threejs.org/)
+SARTHI is an AI-powered heritage tourism companion designed to help travelers discover, understand and experience India's cultural heritage through personalized planning, multilingual guidance, verified information and immersive technologies.
 
----
+The platform brings fragmented heritage information into a single intelligent travel experience while helping visitors discover lesser-known monuments, local culture, artisans and authentic experiences.
 
-## 📖 Table of Contents
-1. [Project Overview](#-project-overview)
-2. [Repository Folder Structure](#-repository-folder-structure)
-3. [Prerequisites](#-prerequisites)
-4. [Environment Setup (.env)](#-environment-setup-env)
-5. [Step-by-Step Run Commands](#-step-by-step-run-commands)
-   - [Running the Backend Server](#1-running-the-backend-server)
-   - [Running the Mobile App](#2-running-the-mobile-app)
-6. [Core Features & Architecture](#-core-features--architecture)
-   - [Augmented Reality (AR) & 3D Studio](#1-augmented-reality-ar--3d-studio)
-   - [360° Virtual Panoramic Tours](#2-360-virtual-panoramic-tours)
-   - [Grounded AI Heritage Guide](#3-grounded-ai-heritage-guide)
-   - [Smart Cultural Itinerary Planner](#4-smart-cultural-itinerary-planner)
-   - [Multilingual & Offline-First Design](#5-multilingual--offline-first-design)
-7. [API Endpoints Reference](#-api-endpoints-reference)
-8. [Testing & Verification](#-testing--verification)
+🏛️ Problem
 
----
+Heritage tourism often involves more than simply finding a monument.
 
-## 🌟 Project Overview
+Travelers may face challenges such as:
 
-**SAARTHI** is an intelligent cultural companion designed to bridge the gap between visiting historic monuments and deeply understanding their civilizational stories. Built with an offline-first architecture, SAARTHI blends **real-time Augmented Reality (AR)**, **interactive 3D inspection**, **360° immersive virtual tours**, and a **provenance-grounded AI guide** citing official Archaeological Survey of India (ASI) and UNESCO records.
+Fragmented information across different websites and sources
 
----
+Difficulty discovering lesser-known heritage destinations
 
-## 📁 Repository Folder Structure
+Language barriers
 
-The repository is organized into distinct, modular folders:
+Unverified or misleading information
 
-```text
-SAARTHI/
+Difficulty planning visits around budget, time and interests
+
+Limited contextual information while standing at a heritage site
+
+Lack of personalized recommendations
+
+Difficulty discovering authentic local experiences
+
+These challenges can reduce the quality of the visitor experience and make heritage exploration less meaningful.
+
+💡 Our Solution
+
+SARTHI acts as an AI-powered digital heritage companion that connects travelers with reliable contextual information and personalized travel assistance.
+
+The platform combines:
+
+Discover → Plan → Verify → Experience → Explore
+
+Users can provide their:
+
+Budget
+
+Available time
+
+Interests
+
+Preferred language
+
+Travel preferences
+
+SARTHI can then generate a personalized heritage experience while providing contextual information at the destination.
+
+🎯 Key Features
+
+🤖 AI Travel Planner
+
+Creates personalized heritage itineraries based on:
+
+Budget
+
+Number of days
+
+Interests
+
+Location
+
+Weather
+
+Traffic
+
+Crowd conditions
+
+Travel preferences
+
+🏛️ Heritage Discovery
+
+Helps users discover:
+
+Famous monuments
+
+Lesser-known heritage sites
+
+Cultural landmarks
+
+Local traditions
+
+Art and crafts
+
+Heritage experiences
+
+✅ Verified Heritage Information
+
+Information can be retrieved from trusted sources and organized through an AI-powered retrieval system to reduce misinformation.
+
+📱 QR-Based Verification
+
+Visitors can scan QR codes at supported heritage locations to access verified contextual information.
+
+Scan QR
+   ↓
+Identify Heritage Site
+   ↓
+Retrieve Verified Information
+   ↓
+AI Contextual Explanation
+   ↓
+Explore
+
+🌐 Multilingual Voice-First Guide
+
+SARTHI can provide heritage information through:
+
+Multiple languages
+
+Voice interaction
+
+Text explanations
+
+Conversational queries
+
+This makes information more accessible to travelers with different language preferences.
+
+🥽 AR Heritage Experience
+
+AR can be used to provide immersive contextual experiences such as:
+
+Historical reconstructions
+
+3D objects
+
+Architectural explanations
+
+Interactive heritage elements
+
+On-site visual storytelling
+
+🧑‍🎨 Local Artisans & Experiences
+
+The platform can help travelers discover authentic local experiences including:
+
+Artisans
+
+Handicrafts
+
+Local workshops
+
+Cultural activities
+
+Homestays
+
+Traditional experiences
+
+🗺️ Smart Itinerary
+
+SARTHI can organize multiple destinations into a practical travel plan considering:
+
+Location
+   +
+Time
+   +
+Budget
+   +
+Interests
+   +
+Weather
+   +
+Traffic
+   +
+Crowds
+   ↓
+Personalized Itinerary
+
+🔄** User Journey**
+<img width="482" height="372" alt="User-Flow" src="https://github.com/user-attachments/assets/77b5db5f-302c-4d67-977a-52ab250c17da" />
+
+
+**🧠 AI Architecture**
+
+SARTHI can use a modular AI architecture to handle different tourism tasks.
+
+                   <img width="610" height="495" alt="System-Flow" src="https://github.com/user-attachments/assets/452a4085-b62c-4337-b70a-6b17afd29a94" />
+
+
+**🛠️ Technology Stack**
+
+<img width="463" height="507" alt="Technical-Flow" src="https://github.com/user-attachments/assets/5d106fcd-6781-4c83-98c5-644adb1ed83d" />
+
+**AI**
+
+Large Language Models (LLMs)
+
+Retrieval-Augmented Generation (RAG)
+
+Agentic workflows
+
+Natural Language Processing
+
+Recommendation systems
+
+Agent Orchestration
+
+Potential technologies include:
+
+LangGraph
+
+CrewAI
+
+Custom agent orchestration
+
+Backend
+
+Node.js
+
+Express.js
+
+REST APIs
+
+Database
+
+MongoDB
+
+Vector database / vector search for semantic retrieval
+
+AR
+
+ARCore
+
+AR Foundation
+
+Unity
+
+3D heritage assets
+
+Verification
+
+QR Codes
+
+Trusted-source knowledge base
+
+Content verification pipeline
+
+**📚 Knowledge & RAG Pipeline**
+
+SARTHI can use a Retrieval-Augmented Generation approach to provide contextual heritage information.
+
+Trusted Sources
+      ↓
+Data Collection
+      ↓
+Cleaning & Structuring
+      ↓
+Chunking
+      ↓
+Embeddings
+      ↓
+Vector Database
+      ↓
+User Query
+      ↓
+Semantic Retrieval
+      ↓
+LLM
+      ↓
+Context-Aware Response
+
+The architecture is intended to reduce unsupported answers by grounding responses in retrieved information.
+
+**🗺️ Personalized Planning**
+
+SARTHI considers multiple factors before generating an itinerary.
+
+Input
+
+Budget
+Days
+Interests
+Location
+Language
+Weather
+Traffic
+Crowds
+
+Processing
+
+User Preferences
+       ↓
+Destination Selection
+       ↓
+Site Ranking by Relevance
+       ↓
+Route Optimization
+       ↓
+Time Allocation
+       ↓
+Experience Recommendations
+
+Output
+
+Personalized Heritage Itinerary
++
+Travel Route
++
+Site Information
++
+Local Experiences
++
+Contextual Guide
+
+🔐 Information Verification
+
+SARTHI focuses on providing trustworthy heritage information through a verification-oriented architecture.
+
+Potential verification layers include:
+
+Official heritage sources
+
+Government tourism information
+
+Verified institutional sources
+
+Curated cultural datasets
+
+Source-aware RAG retrieval
+
+QR-linked site information
+
+The goal is to distinguish verified information from unsupported or user-generated claims.
+
+**📱 Example User Flow**
+
+Step 1 — Tell SARTHI What You Want
+
+"I have 2 days.
+My budget is ₹5,000.
+I am interested in architecture
+and local crafts."
+
+Step 2 — SARTHI Understands the Request
+
+The system identifies:
+
+Available time
+
+Budget
+
+Interests
+
+Destination requirements
+
+Step 3 — Personalized Plan
+
+SARTHI creates a practical itinerary based on available information.
+
+Step 4 — Explore the Destination
+
+At the heritage site the user can:
+
+Scan a QR code
+
+Ask questions using voice
+
+Read contextual information
+
+View AR experiences
+
+Step 5 — Discover Local Culture
+
+The user can explore:
+
+Artisans
+
+Crafts
+
+Workshops
+
+Local experiences
+
+Homestays
+
+**🌏 Multilingual Experience**
+
+SARTHI is designed for India's multilingual tourism environment.
+
+Possible language support includes:
+
+English
+
+Hindi
+
+Marathi
+
+Bengali
+
+Tamil
+
+Telugu
+
+Gujarati
+
+Kannada
+
+Malayalam
+
+Other regional languages
+
+The language layer can be expanded based on deployment requirements.
+
+**🧩 Suggested Project Structure**
+
+SARTHI/
 │
-├── APP SOURCE CODE/           # Cross-platform Mobile & Web Frontend (React Native & Expo)
-│   ├── app/                   # Expo Router file-based pages (tabs, site details, AR experience)
-│   │   ├── (tabs)/            # Main navigation tabs (Explore, Guide, Planner, Profile)
-│   │   ├── site/[id].tsx      # Monument detail view with history, stories, facilities, and AR banner
-│   │   ├── site/[id]/         # Monument immersive experience routing (AR & Virtual Tours)
-│   │   ├── onboarding.tsx     # Personalized traveler onboarding flow
-│   │   └── _layout.tsx        # Root navigation stack and theme provider
-│   ├── assets/                # App icons, splash screens, and 3D GLB monument models
-│   ├── components/            # Reusable UI & Feature components
-│   │   ├── ar/                # Augmented Reality engine (ARViewer, ModelPlacement, PlaneDetection)
-│   │   ├── virtual-tour/      # Three.js 360° panoramic canvas & interactive hotspot pins
-│   │   ├── guide/             # Conversational AI interface with citation cards & provenance badges
-│   │   ├── heritage/          # Monument cards, carousels, timeline views, site schematics
-│   │   └── common/            # Design system buttons, badges, modals, and headers
-│   ├── data/                  # Localized datasets, 3D Base64 models (India Gate, Qutub Minar), tours
-│   ├── services/              # Axios API client, authentication service, AI service, weather
-│   ├── store/                 # Zustand global state (user auth, audio player, offline sync)
-│   └── package.json           # Frontend dependencies & start scripts
+├── app/
+│   ├── screens/
+│   ├── components/
+│   ├── navigation/
+│   └── services/
 │
-├── BACKEND SOURCE CODE/       # Backend REST API Server (Node.js, Express, MongoDB Atlas)
-│   ├── config/                # Database connection manager (Mongoose Atlas client)
-│   ├── controllers/           # Auth controllers (register, login, getProfile)
-│   ├── middleware/            # JWT verification & request validation middleware
-│   ├── models/                # Mongoose database schemas (User schema with bcrypt hashing)
-│   ├── routes/                # Express API routes (/api/auth, /api/health)
-│   ├── tests/                 # Supertest API endpoint test suite
-│   ├── server.js              # Server entry point with graceful shutdown & error handling
-│   ├── .env                   # Live environment configuration with MongoDB Atlas connection string
-│   └── package.json           # Backend dependencies & dev scripts
+├── backend/
+│   ├── routes/
+│   ├── controllers/
+│   ├── models/
+│   └── server/
 │
-├── App Demo/                  # Application walkthrough videos, recordings, and screenshots
-├── Architectures/             # System diagrams, component architecture, and WebAR pipeline blueprints
-├── Documentation/             # Comprehensive PRD, TRD, System Design, and User Flow specifications
-├── Research/                  # ASI archaeological literature, historical research, and field studies
-├── env.example                # Unified environment variables template
-├── .gitignore                 # Standard ignore file for node_modules, build caches, and secrets
-└── README.md                  # Complete project documentation and run guide
-```
+├── ai/
+│   ├── agents/
+│   ├── rag/
+│   ├── prompts/
+│   └── workflows/
+│
+├── ar/
+│   ├── scenes/
+│   ├── models/
+│   └── scripts/
+│
+├── assets/
+│
+├── documentation/
+│
+└── README.md
 
----
+🚀 Getting Started
 
-## ⚙️ Prerequisites
+Prerequisites
 
-Before running the project, make sure you have the following installed on your computer:
+Install:
 
-1. **Node.js** (v18.0.0 or higher recommended) — [Download Node.js](https://nodejs.org/)
-2. **npm** (v9.0.0 or higher) or **yarn**
-3. **Expo Go app** on your Android or iOS mobile phone (available free on Google Play Store & Apple App Store)
-4. *(Optional for local mobile development)*: Android Studio (for Android Emulator) or Xcode (for macOS iOS Simulator).
+Node.js
 
----
+npm
 
-## 🔐 Environment Setup (.env)
+Git
 
-The repository includes a template file: `env.example`.
+Expo CLI / Expo development environment
 
-### 1. Backend Environment Setup:
-The backend `.env` file is located at `BACKEND SOURCE CODE/.env`. It is pre-configured with the live MongoDB Atlas cluster:
+Android Studio for Android development
 
-```env
-PORT=5001
-MONGODB_URI=mongodb://sahilramteke95_db_user:<password>@ac-n1xkmag-shard-00-00.qdlafz5.mongodb.net:27017,ac-n1xkmag-shard-00-01.qdlafz5.mongodb.net:27017,ac-n1xkmag-shard-00-02.qdlafz5.mongodb.net:27017/?ssl=true&replicaSet=atlas-7yx49v-shard-0&authSource=admin&appName=Cluster0
-JWT_SECRET=saarthi_super_secure_jwt_secret_key_2026_zenvia
-JWT_EXPIRES_IN=7d
-NODE_ENV=development
-```
+Unity and required AR packages for the AR module
 
----
+Clone the Repository
 
-## 🚀 Step-by-Step Run Commands
+git clone https://github.com/YOUR-USERNAME/SARTHI.git
 
-Follow these simple steps in your terminal to start the platform:
+cd SARTHI
 
-### 1. Running the Backend Server
+Install Dependencies
 
-Open your first terminal window:
-
-```bash
-# Step 1: Navigate to the Backend folder
-cd "BACKEND SOURCE CODE"
-
-# Step 2: Install dependencies (only needed the first time)
 npm install
 
-# Step 3: Start the server in development mode (with auto-reload)
-npm run dev
-```
+Start the Development Server
 
-> **Expected Terminal Output:**
-> ```text
-> [SAARTHI Backend] Server running in development mode on port 5001
-> [MongoDB Atlas] Connected successfully to host: ac-n1xkmag-shard-00-00.qdlafz5.mongodb.net
-> ```
+npx expo start
 
-To verify the backend is running, open your browser or run:
-```bash
-curl http://localhost:5001/api/health
-```
+Then run the application using an Android emulator or compatible physical device.
 
----
+🔑 Environment Variables
 
-### 2. Running the Mobile App
+Create a .env file for local development.
 
-Open a second terminal window:
+Example:
 
-```bash
-# Step 1: Navigate to the App folder
-cd "APP SOURCE CODE"
+API_BASE_URL=your_backend_url
+LLM_API_KEY=your_api_key
+DATABASE_URL=your_database_url
+MAPS_API_KEY=your_maps_api_key
 
-# Step 2: Install dependencies (only needed the first time)
-npm install
+Never commit API keys or private credentials to GitHub.
 
-# Step 3: Start the Expo development server
-npm start
-# OR
-npm run dev
-```
+🔮 Future Scope
 
-> **Expo Controls Menu:**
-> - 📱 **On Mobile Phone:** Open the **Expo Go** app on your phone, tap **Scan QR code**, and scan the QR code displayed in your terminal. Both your computer and phone must be on the same Wi-Fi network.
-> - 🌐 **In Web Browser:** Press `w` in the terminal to launch the app directly in your web browser.
-> - 🤖 **On Android Emulator:** Press `a` in the terminal to launch on a running Android emulator.
-> - 🍎 **On iOS Simulator:** Press `i` in the terminal (macOS only).
+SARTHI can be expanded with:
 
----
+Advanced AI travel agents
 
-## 🏛️ Core Features & Architecture
+Real-time crowd intelligence
 
-### 1. Augmented Reality (AR) & 3D Studio
-- **3D Monument Studio:** Full 360° orbit rotation, pinch-to-scale, pan, and lighting for monuments (India Gate, Qutub Minar).
-- **Live Camera Augmented Reality:**
-  1. Open any monument page (e.g., India Gate or Qutub Minar) and tap **"VIEW IN AR"**.
-  2. Tap the **"View in AR"** button at the bottom.
-  3. The phone prompts for **Camera Permission**.
-  4. Real-time **Plane Detection** scans the surface with an interactive reticle and guidance card.
-  5. The 3D monument anchors securely onto the floor/ground in front of you with realistic ground shadows.
-  6. Tap **"3D Studio"** to toggle back to the inspection studio anytime.
-- **Zero-Latency Offline Models:** Optimized low-poly GLTF 2.0 binaries converted into base64 data URIs for instant rendering with zero network delay.
+Dynamic itinerary modification
 
-### 2. 360° Virtual Panoramic Tours
-- High-resolution equirectangular spherical views powered by Three.js.
-- Interactive hotspots indicating architectural highlights (e.g., corbelled balconies of Qutub Minar, central stupa of Deekshabhoomi).
-- Integrated spatial audio narration.
+More Indian languages
 
-### 3. Grounded AI Heritage Guide
-- Conversational chat powered by contextual knowledge retrieval.
-- **Provenance Badges:** Every statement is tagged with verified provenance:
-  - `VERIFIED_FACT`: Directly backed by Archaeological Survey of India (ASI) records.
-  - `ARCHAEOLOGICAL_EVIDENCE`: Excavation finds and carbon dating data.
-  - `LOCAL_TRADITION`: Documented oral histories and folklore.
+Offline heritage information packs
 
-### 4. Smart Cultural Itinerary Planner
-- Generates personalized travel itineraries based on:
-  - Available visit duration (half-day, full-day, multi-day).
-  - Accessibility needs (wheelchair friendly, minimal walking).
-  - Traveler interests (architecture, mythology, photography, family-friendly).
-- Real-time crowd density indicator and optimal visiting hours.
+Advanced AR historical reconstruction
 
-### 5. Multilingual & Offline-First Design
-- **Languages Supported:** English, Hindi (हिन्दी), and Marathi (मराठी).
-- Switch language on-the-fly from the Profile tab.
-- Downloadable offline site packs enable full access to monument maps, stories, and 3D models without internet connectivity.
+3D digital heritage models
 
----
+Verified artisan marketplace
 
-## 📡 API Endpoints Reference
+Personalized cultural recommendations
 
-Base URL: `http://localhost:5001/api`
+Heritage accessibility assistance
 
-| Method | Endpoint | Description | Auth Required |
-|---|---|---|---|
-| `GET` | `/health` | Health check & MongoDB Atlas status | No |
-| `POST` | `/auth/register` | Register new user (name, email, password) | No |
-| `POST` | `/auth/login` | Login user & receive JWT token | No |
-| `GET` | `/auth/profile` | Fetch authenticated user profile | Yes (Bearer Token) |
+Voice-based navigation
 
----
+Smart ticket and time-slot integration
 
-## 🧪 Testing & Verification
+Digital heritage passports
 
-### Running Backend Tests
-```bash
-cd "BACKEND SOURCE CODE"
-npm test
-```
-*Executes all 8 integration tests covering health checks, user registration, JWT generation, password validation, and profile retrieval against live MongoDB Atlas.*
+🌱 Expected Impact
 
-### Running Frontend Typechecks
-```bash
-cd "APP SOURCE CODE"
-npx tsc --noEmit
-```
-*Validates 100% type safety across all React Native screens, components, and services with zero TypeScript errors.*
+SARTHI aims to make heritage tourism:
 
----
+Personalized → Accessible → Verified → Immersive → Meaningful
 
-## 👥 Team Zenvia
+The platform can help travelers move beyond simply visiting famous monuments and instead understand the historical context and discover local cultural experiences.
 
-- **Sahil Ramteke** — Project Lead & Full Stack / AR Development
-- **Team Zenvia** — Research, System Architecture & Cultural Grounding
+🎯 Target Users
+
+SARTHI can serve:
+
+Domestic tourists
+
+International tourists
+
+Students
+
+Heritage enthusiasts
+
+Families
+
+Solo travelers
+
+Cultural researchers
+
+Tour operators
+
+Heritage organizations
+
+Tourism authorities
+
+🏛️ Potential Use Cases
+
+Heritage Exploration
+
+Discover and understand historical monuments.
+
+Educational Tourism
+
+Provide students with contextual historical information.
+
+Cultural Tourism
+
+Connect visitors with local crafts and traditions.
+
+Smart Travel Planning
+
+Create itineraries according to individual requirements.
+
+On-Site Digital Guide
+
+Provide contextual information while the visitor is physically at a heritage site.
+
+⭐ Why SARTHI?
+
+Traditional tourism applications often focus on maps, tickets or basic destination information.
+
+SARTHI focuses on the complete heritage journey:
+
+DISCOVER
+   ↓
+PLAN
+   ↓
+VERIFY
+   ↓
+TRAVEL
+   ↓
+EXPERIENCE
+   ↓
+UNDERSTAND
+   ↓
+EXPLORE
+
+👨‍💻 Project
+
+Project: SARTHI
+Domain: AI + Heritage Tourism
+Platform: Mobile Application
+Core Technologies: AI + RAG + Agentic Workflows + AR + QR
+Focus: Personalized and trustworthy heritage experiences
+
+📄 License
+
+This project is currently intended for educational, research and prototype development.
+
+Add the appropriate open-source license before public distribution.
+
+⭐ Support
+
+If you find SARTHI useful, consider giving the repository a ⭐ on GitHub.
+
+SARTHI — Your Intelligent Companion for India's Heritage.
